@@ -9,9 +9,6 @@ var pdfTemplateProcessor = function(tmplParams) {
         mainFont: "Arial",
         pageMargins: [72, 20, 40, 20],
         content: [
-            {
-                text: "Hello World"
-            }
         ],
         header: {
         },
