@@ -12,6 +12,7 @@ There are several components, which are supported by the application:
  - New page
  - HTML Content 
  - SVG Content
+ - Barcode
 
 # Template definition
 
@@ -177,7 +178,29 @@ Example:
 {
   svgContent: '<svg height="100" width="100"><circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" /></svg>'
 }
+```
 
+## Barcode component
+The PDF template supports the barcode visualisation. The following attributes are part of the barcode:
+
+- width: Most of the time the value is 1
+- height: This property specifies the height of the barcode. Default value: 30
+- text: This property is the content of the barcode
+- marginUnderText: This property defines the distance between the barcode the the text below
+- fontSizeUnderText: This property defines the font size of the text below the barcode in pixel.
+
+Example:
+
+``` JS
+
+{
+    barcode: {
+        width: 1,
+        height: 30,
+        text: "INC0000123",
+        marginUnderText: 5,
+        fontSizeUnderText: 10
+    }
 }
 ```
 
