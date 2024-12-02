@@ -19,7 +19,3 @@ var pdfTemplateProcessor = function(tmplParams) {
     return docDefinition;
 };
 ```
-
-Output:
-
-[preview.pdf](https://github.com/user-attachments/files/17976982/preview.pdf)
