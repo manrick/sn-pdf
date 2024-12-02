@@ -180,3 +180,171 @@ Example:
 
 }
 ```
+
+
+# Styling
+
+The whole solution is HTML based, so CSS components can be used for defining styles.
+Each component can have its own style definition (like an HTML component) but style class also can be used.
+
+## Text component style
+
+The direct style definition has to be added to the JSON element, called "style". This is an array, which contains a list of CSS properties.
+
+### Direct style definition
+
+``` JS
+ {
+     text: "Hello World!",
+     style: [
+         "color: red",
+         "font-weight: bold"
+     ]
+ }
+```
+OR
+
+``` JS
+ {
+     text: "Hello World!",
+     style: [
+         "width: 100%",
+         "text-align: right",
+     ]
+ }
+```
+
+### Style definition using style class
+
+In this case the style definition is part of the styleClasses property of pdfTemplateProcessor document template. This is an object with key value pairs.
+
+Example:
+
+``` JS
+ styleClasses: {
+     class1: {
+         "width": "100%",
+         "text-align": "right"
+     },
+     class2: {
+         "color": "red"
+     }
+ }
+```
+
+Example with text component:
+
+
+``` JS
+ content: [
+     {
+         text: "Hello World!",
+         styleClass: "class1"
+     }
+ ],
+ styleClasses: {
+     class1: {
+         "width": "100%",
+         "text-align": "right"
+     },
+     class2: {
+         "color": "red"
+     }
+ }
+```
+
+The example below represents how multiple style classes can be added to a text component.
+
+``` JS
+ content: [
+     {
+         text: "Hello World!",
+         styleClass: "class1 class2"
+     }
+ ],
+ styleClasses: {
+     class1: {
+         "width": "100%",
+         "text-align": "right"
+     },
+     class2: {
+         "color": "red"
+     }
+ }
+```
+
+## HTML component style
+
+Example:
+
+``` JS
+{
+    htmlContent: "<b>Hello World</b><br><i>Sample text</i>",
+    style: [
+        "width: 50%",
+        "border: 1px solid black"
+    ]
+}
+```
+
+# Header and Footer
+
+The solution supports to add header and / or footer to the template.
+
+The header and footer attribute of the template is a simple object, so only one component can be added, but the components can be nested, so the header and footer can also be a complex content. Examples:
+
+## Header
+
+``` JS
+header: {
+     text: "Document header",
+     style: [
+         "width: 100%",
+         "text-align: center",
+         "font-style: italic"
+     ]
+ }
+```
+
+``` JS
+header: {
+    text: [
+        {
+            htmlContent: "<b>Hello World</b><br><i>Sample text</i>",
+            style: [
+                "width: 50%",
+                "border: 1px solid black"
+            ]
+        }
+    ]           
+}
+```
+
+## Footer
+
+``` JS
+footer: {
+        text: [{
+                text: "Footer text:"
+            },
+            {
+                text: "",
+                styleClass: "currentPageNumber"
+            },
+            {
+                text: "/"
+            },
+            {
+                text: "",
+                styleClass: "allPageNumber"
+            }
+        ]
+    }
+```
+
+## Special elements
+### Page number
+The page number definition is also supported by the application. There are two special styleClass elements, which have to be used:
+
+- **currentPageNumber**: This property shows the number of current page
+- **allPageNumber**: This property shows the number of all pages of PDF document
