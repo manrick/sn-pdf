@@ -14,6 +14,7 @@ There are several components, which are supported by the application:
  - SVG Content
  - Barcode
  - Image
+ - Horizontal line
 
 # Template definition
 
@@ -247,6 +248,31 @@ Base64 encoded images are also supported. The following JSON structure has to be
 	}
 }
 ```
+
+## Horizontal line component
+A simple horizontal line can be used like in HTML. using the following JSON structure
+
+``` JS
+{
+    hr: {}
+}
+```
+
+The base horizontal line doesn't look good. It is highly recommended adding some style to the component, like the below one:
+
+``` JS
+{
+	hr: {},
+	style: [
+	    "color: black;",
+	    "background-color: black;",
+	    "height: 1px;",
+	    "border: 0px;"
+	]
+},
+```
+
+The horizontal line definition above looks much better. It is a simple black line with 1 px height. This is a simple CSS definition.
 
 # Styling
 
