@@ -15,6 +15,7 @@ There are several components, which are supported by the application:
  - Barcode
  - Image
  - Horizontal line
+ - Table
 
 # Template definition
 
@@ -273,6 +274,323 @@ The base horizontal line doesn't look good. It is highly recommended adding some
 ```
 
 The horizontal line definition above looks much better. It is a simple black line with 1 px height. This is a simple CSS definition.
+
+## Text component
+The table component is the most complex one. There are several possibilities how a table can be defined into the PDF. It is important, everything is based on the main HTML component. The table component uses the same concept.
+
+A simple table definition can be seen below, with three columns and two rows. The table has header, but doesn't have border:
+``` JS
+{
+    table: {
+        header: [
+            {
+                text: "Header 1"
+            },
+            {
+                text: "Header 2"
+            },
+            {
+                text: "Header 3"
+            }
+        ],
+        body: [
+            [
+                {
+                    text: "Row 1 Cell 1"
+                },
+                {
+                    text: "Row 1 Cell 2"
+                },
+                {
+                    text: "Row 1 Cell 3"
+                }
+            ],
+            [
+                {
+                    text: "Row 2 Cell 1"
+                },
+                {
+                    text: "Row 2 Cell 2"
+                },
+                {
+                    text: "Row 2 Cell 3"
+                }
+            ]
+        ]
+    }
+}
+```
+
+In the next example the table does not have headerm, but it has five rows and three columns. The table widht is fix 500 px. The *tableStyle* property contains the table level styles.
+
+``` JS
+{
+table:{
+    header:[
+    ],
+    body:[
+	[
+	    {
+		text: "Row 1 Cell 1"
+	    },
+	    {
+		text: "Row 1 Cell 2"
+	    },
+	    {
+		text: "Row 1 Cell 3"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 2 Cell 1"
+	    },
+	    {
+		text: "Row 2 Cell 2"
+	    },
+	    {
+		text: "Row 2 Cell 3"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 3 Cell 1"
+	    },
+	    {
+		text: "Row 3 Cell 2"
+	    },
+	    {
+		text: "Row 3 Cell 3"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 4 Cell 1"
+	    },
+	    {
+		text: "Row 4 Cell 2"
+	    },
+	    {
+		text: "Row 4 Cell 3"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 5 Cell 1"
+	    },
+	    {
+		text: "Row 5 Cell 2"
+	    },
+	    {
+		text: "Row 5 Cell 3"
+	    }                            
+	]
+    ]
+},
+tableStyle: [
+    "border-collapse: collapse;",
+    "width: 500px"
+    ]
+}
+```
+
+The next example contains an additional style. Each row has top and bottom border, with a grey color. This style is defined into the global style property of the template.
+
+
+``` JS
+content: [
+{
+table:{
+    header:[
+    ],
+    body:[
+	[
+	    {
+		text: "Row 1 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 1 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 1 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 2 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 2 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 2 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 3 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 3 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 3 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 4 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 4 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 4 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 5 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 5 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 5 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	]
+    ]
+},
+tableStyle: [
+    "border-collapse: collapse;",
+    "width: 500px"
+    ]
+}
+],
+styleClasses: {
+    borderBody: {
+	"border-top": "1px solid lightgrey",
+	"border-bottom": "1px solid lightgrey"
+    },
+}
+```
+
+In the following example, the style is a bit more complex. The upper border of the first row is slightly thicker, the lower border of the last row is also thicker than the borders of the other rows.
+
+``` JS
+content: [
+{
+table:{
+    header:[
+    ],
+    body:[
+	[
+	    {
+		text: "Row 1 Cell 1",
+		bodyCellStyleClass: "borderBodyFirst"
+	    },
+	    {
+		text: "Row 1 Cell 2",
+		bodyCellStyleClass: "borderBodyFirst"
+	    },
+	    {
+		text: "Row 1 Cell 3",
+		bodyCellStyleClass: "borderBodyFirst"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 2 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 2 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 2 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 3 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 3 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 3 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 4 Cell 1",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 4 Cell 2",
+		bodyCellStyleClass: "borderBody"
+	    },
+	    {
+		text: "Row 4 Cell 3",
+		bodyCellStyleClass: "borderBody"
+	    }                            
+	],
+	[
+	    {
+		text: "Row 5 Cell 1",
+		bodyCellStyleClass: "borderBodyLast"
+	    },
+	    {
+		text: "Row 5 Cell 2",
+		bodyCellStyleClass: "borderBodyLast"
+	    },
+	    {
+		text: "Row 5 Cell 3",
+		bodyCellStyleClass: "borderBodyLast"
+	    }                            
+	]
+    ]
+},
+tableStyle: [
+    "border-collapse: collapse;",
+    "width: 500px"
+    ]
+}
+],
+styleClasses: {
+    borderBodyFirst: {
+	"border-top": "2px solid black"
+    },
+
+    borderBody: {
+	"border-top": "1px solid lightgrey"
+    },
+
+    borderBodyLast: {
+	"border-top": "1px solid lightgrey",
+	"border-bottom": "2px solid black"
+    }
+}
+```
 
 # Styling
 
