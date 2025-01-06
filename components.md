@@ -340,7 +340,7 @@ The base horizontal line doesn't look good. It is highly recommended adding some
 
 The horizontal line definition above looks much better. It is a simple black line with 1 px height. This is a simple CSS definition.
 
-## Text component
+## Table component
 The table component is the most complex one. There are several possibilities how a table can be defined into the PDF. It is important, everything is based on the main HTML component. The table component uses the same concept.
 
 A simple table definition can be seen below, with three columns and two rows. The table has header, but doesn't have border:
