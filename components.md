@@ -13,6 +13,7 @@ There are several components, which are supported by the application:
  - HTML Content 
  - SVG Content
  - Barcode
+ - QR Code
  - Image
  - Horizontal line
  - Table
@@ -203,6 +204,70 @@ Example:
         text: "INC0000123",
         marginUnderText: 5,
         fontSizeUnderText: 10
+    }
+}
+```
+
+## QR component
+The PDF template supports the QR code visualisation. The following attributes are part of the QR code component:
+Basic parameters:
+- width: With of the generated image. Default value: 200
+- height: Height of the generated image. Default value: 200
+- type: constant value: SVG
+- data: This is the content of the QR code!
+
+Appearance parameters
+- backgroundOptions.color: Main background color in hexadecimal format
+- dotsOptions.type: There can be three types:
+  - square
+  - dots
+  - rounded
+- dotsOptions.color: Color of dots in hexadecimal format
+- cornersSquareOptions.type: There can be multiple styles of the corner squares:
+  - none (empty value)
+  - square
+  - dot
+- cornersSquareOptions.color Color of corner squares in hexadecimal format
+- cornersDotOptions.type: There can be multiple styles of the corner dots:
+  - none (empty value)
+  - square
+  - dot
+- cornersDotOptions.color Color of corner dots in hexadecimal format
+
+A simple QR code definition can be found below
+``` JS
+{
+    qrCode2: {
+	options: {
+	    "width": 200,
+	    "height": 200,
+	    "type": "svg",
+	    "data": "Test content!!!",
+	    "imageSysId": "",
+	    "imageOptions": {
+	    },
+	    "qrOptions": {
+		"typeNumber": "0",
+		"mode": "Byte",
+		"errorCorrectionLevel": "Q"
+	    },
+	    "backgroundOptions": {
+		"color": "#ffffff"
+	    },
+	    "dotsOptions": {
+		"type": "square",
+		"color": "#000000",
+		"gradient": null
+	    },
+	    "cornersSquareOptions": {
+		"type": "",
+		"color": "#000000"
+	    },
+	    "cornersDotOptions": {
+		"type": "",
+		"color": "#000000"
+	    }
+	}
     }
 }
 ```
