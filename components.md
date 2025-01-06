@@ -208,7 +208,7 @@ Example:
 }
 ```
 
-## QR component
+## QR code component
 The PDF template supports the QR code visualisation. The following attributes are part of the QR code component:
 Basic parameters:
 - width: With of the generated image. Default value: 200
