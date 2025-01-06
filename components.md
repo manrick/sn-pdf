@@ -198,7 +198,7 @@ Example:
 ``` JS
 
 {
-    barcode: {
+    barCode: {
         width: 1,
         height: 30,
         text: "INC0000123",
