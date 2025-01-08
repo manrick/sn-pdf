@@ -95,17 +95,31 @@ footer: { text: "Document footer" }
 Example:
 
 ``` JS
-content: [
-  {
-    text: 'Hello World',
-    styleClass: "specialStyle"
-  },
-],
-styleClasses: {
-  specialStyle: {
-    color: "red"
-  }
-}
+var pdfTemplateProcessor = function(tmplParams) {
+ 
+    var docDefinition = {
+        pageSize: 'A4',
+        pageOrientation: 'portrait',
+        mainFont: "Arial",
+        pageMargins: [72, 20, 40, 20],
+        content: [
+	  {
+	    text: 'Hello World',
+	    styleClass: "specialStyle"
+	  },
+	],
+        header: {
+        },
+        footer: {
+        },
+        styleClasses: {
+	  specialStyle: {
+	    color: "red"
+	  }
+	}
+    };
+    return docDefinition;
+};
 ```
 
 # Components
@@ -462,199 +476,227 @@ The next example contains an additional style. Each row has top and bottom borde
 
 
 ``` JS
-content: [
-{
-table:{
-    header:[
-    ],
-    body:[
-	[
-	    {
-		text: "Row 1 Cell 1",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 1 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 1 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
+var pdfTemplateProcessor = function(tmplParams) {
+ 
+    var docDefinition = {
+        pageSize: 'A4',
+        pageOrientation: 'portrait',
+        mainFont: "Arial",
+        pageMargins: [72, 20, 40, 20],
+        content: [
+	{
+	table: {
+	    header:[
+	    ],
+	    body:[
+		[
+		    {
+			text: "Row 1 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 1 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 1 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 2 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 2 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 2 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 3 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 3 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 3 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 4 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 4 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 4 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 5 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 5 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 5 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		]
+	    ]
+	},
+	tableStyle: [
+	    "border-collapse: collapse;",
+	    "width: 500px"
+	    ]
+	}
 	],
-	[
-	    {
-		text: "Row 2 Cell 1",
-		bodyCellStyleClass: "borderBody"
+        header: {
+        },
+        footer: {
+        },
+        styleClasses: {
+	    borderBody: {
+		"border-top": "1px solid lightgrey",
+		"border-bottom": "1px solid lightgrey"
 	    },
-	    {
-		text: "Row 2 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 2 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	],
-	[
-	    {
-		text: "Row 3 Cell 1",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 3 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 3 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	],
-	[
-	    {
-		text: "Row 4 Cell 1",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 4 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 4 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	],
-	[
-	    {
-		text: "Row 5 Cell 1",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 5 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 5 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	]
-    ]
-},
-tableStyle: [
-    "border-collapse: collapse;",
-    "width: 500px"
-    ]
-}
-],
-styleClasses: {
-    borderBody: {
-	"border-top": "1px solid lightgrey",
-	"border-bottom": "1px solid lightgrey"
-    },
-}
+	}
+    };
+    return docDefinition;
+};
 ```
 
 In the following example, the style is a bit more complex. The upper border of the first row is slightly thicker, the lower border of the last row is also thicker than the borders of the other rows.
 
 ``` JS
-content: [
-{
-table:{
-    header:[
-    ],
-    body:[
-	[
-	    {
-		text: "Row 1 Cell 1",
-		bodyCellStyleClass: "borderBodyFirst"
-	    },
-	    {
-		text: "Row 1 Cell 2",
-		bodyCellStyleClass: "borderBodyFirst"
-	    },
-	    {
-		text: "Row 1 Cell 3",
-		bodyCellStyleClass: "borderBodyFirst"
-	    }                            
+var pdfTemplateProcessor = function(tmplParams) {
+ 
+    var docDefinition = {
+        pageSize: 'A4',
+        pageOrientation: 'portrait',
+        mainFont: "Arial",
+        pageMargins: [72, 20, 40, 20],
+        content: [
+	{
+	table:{
+	    header:[
+	    ],
+	    body:[
+		[
+		    {
+			text: "Row 1 Cell 1",
+			bodyCellStyleClass: "borderBodyFirst"
+		    },
+		    {
+			text: "Row 1 Cell 2",
+			bodyCellStyleClass: "borderBodyFirst"
+		    },
+		    {
+			text: "Row 1 Cell 3",
+			bodyCellStyleClass: "borderBodyFirst"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 2 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 2 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 2 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 3 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 3 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 3 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 4 Cell 1",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 4 Cell 2",
+			bodyCellStyleClass: "borderBody"
+		    },
+		    {
+			text: "Row 4 Cell 3",
+			bodyCellStyleClass: "borderBody"
+		    }                            
+		],
+		[
+		    {
+			text: "Row 5 Cell 1",
+			bodyCellStyleClass: "borderBodyLast"
+		    },
+		    {
+			text: "Row 5 Cell 2",
+			bodyCellStyleClass: "borderBodyLast"
+		    },
+		    {
+			text: "Row 5 Cell 3",
+			bodyCellStyleClass: "borderBodyLast"
+		    }                            
+		]
+	    ]
+	},
+	tableStyle: [
+	    "border-collapse: collapse;",
+	    "width: 500px"
+	    ]
+	}
 	],
-	[
-	    {
-		text: "Row 2 Cell 1",
-		bodyCellStyleClass: "borderBody"
+        header: {
+        },
+        footer: {
+        },
+        styleClasses: {
+	    borderBodyFirst: {
+		"border-top": "2px solid black"
 	    },
-	    {
-		text: "Row 2 Cell 2",
-		bodyCellStyleClass: "borderBody"
+	
+	    borderBody: {
+		"border-top": "1px solid lightgrey"
 	    },
-	    {
-		text: "Row 2 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	],
-	[
-	    {
-		text: "Row 3 Cell 1",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 3 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 3 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	],
-	[
-	    {
-		text: "Row 4 Cell 1",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 4 Cell 2",
-		bodyCellStyleClass: "borderBody"
-	    },
-	    {
-		text: "Row 4 Cell 3",
-		bodyCellStyleClass: "borderBody"
-	    }                            
-	],
-	[
-	    {
-		text: "Row 5 Cell 1",
-		bodyCellStyleClass: "borderBodyLast"
-	    },
-	    {
-		text: "Row 5 Cell 2",
-		bodyCellStyleClass: "borderBodyLast"
-	    },
-	    {
-		text: "Row 5 Cell 3",
-		bodyCellStyleClass: "borderBodyLast"
-	    }                            
-	]
-    ]
-},
-tableStyle: [
-    "border-collapse: collapse;",
-    "width: 500px"
-    ]
-}
-],
-styleClasses: {
-    borderBodyFirst: {
-	"border-top": "2px solid black"
-    },
-
-    borderBody: {
-	"border-top": "1px solid lightgrey"
-    },
-
-    borderBodyLast: {
-	"border-top": "1px solid lightgrey",
-	"border-bottom": "2px solid black"
-    }
-}
+	
+	    borderBodyLast: {
+		"border-top": "1px solid lightgrey",
+		"border-bottom": "2px solid black"
+	    }
+	}
+    };
+    return docDefinition;
+};
 ```
 
 # Styling
