@@ -342,47 +342,103 @@ The horizontal line definition above looks much better. It is a simple black lin
 ## Table component
 The table component is the most complex one. There are several possibilities how a table can be defined into the PDF. It is important, everything is based on the main HTML component. The table component uses the same concept.
 
-A simple table definition can be seen below, with three columns and two rows. The table has header, but doesn't have border:
+A simple table definition can be seen below, with three columns and five rows. The table has header and full border. The table is 100% widht:
 ``` JS
-{
-    table: {
-        header: [
+var pdfTemplateProcessor = function(tmplParams) {
+ 
+    var docDefinition = {
+        pageSize: 'A4',
+        pageOrientation: 'portrait',
+        mainFont: "Arial",
+        pageMargins: [72, 20, 40, 20],
+        content: [
             {
-                text: "Header 1"
-            },
-            {
-                text: "Header 2"
-            },
-            {
-                text: "Header 3"
+                table:{
+                    header:[
+                        {
+                                text: "Header 1"
+                            },
+                            {
+                                text: "Header 2"
+                            },
+                            {
+                                text: "Header 3"
+                            }  
+                    ],
+                    body:[
+                        [
+                            {
+                                text: "Row 1 Cell 1"
+                            },
+                            {
+                                text: "Row 1 Cell 2"
+                            },
+                            {
+                                text: "Row 1 Cell 3"
+                            }                            
+                        ],
+                        [
+                            {
+                                text: "Row 2 Cell 1"
+                            },
+                            {
+                                text: "Row 2 Cell 2"
+                            },
+                            {
+                                text: "Row 2 Cell 3"
+                            }                            
+                        ],
+                        [
+                            {
+                                text: "Row 3 Cell 1"
+                            },
+                            {
+                                text: "Row 3 Cell 2"
+                            },
+                            {
+                                text: "Row 3 Cell 3"
+                            }                            
+                        ],
+                        [
+                            {
+                                text: "Row 4 Cell 1"
+                            },
+                            {
+                                text: "Row 4 Cell 2"
+                            },
+                            {
+                                text: "Row 4 Cell 3"
+                            }                            
+                        ],
+                        [
+                            {
+                                text: "Row 5 Cell 1"
+                            },
+                            {
+                                text: "Row 5 Cell 2"
+                            },
+                            {
+                                text: "Row 5 Cell 3"
+                            }                            
+                        ]
+                    ]
+                },
+                border: "1px solid black",
+                tableStyle: [
+                    "border-collapse: collapse;",
+                    "width: 100%"
+                    ]
             }
         ],
-        body: [
-            [
-                {
-                    text: "Row 1 Cell 1"
-                },
-                {
-                    text: "Row 1 Cell 2"
-                },
-                {
-                    text: "Row 1 Cell 3"
-                }
-            ],
-            [
-                {
-                    text: "Row 2 Cell 1"
-                },
-                {
-                    text: "Row 2 Cell 2"
-                },
-                {
-                    text: "Row 2 Cell 3"
-                }
-            ]
-        ]
-    }
-}
+        header: {
+        },
+        footer: {
+        },
+        styleClasses: {
+        }
+    };
+    return docDefinition;
+};
 ```
 
 In the next example the table does not have headerm, but it has five rows and three columns. The table widht is fix 500 px. The *tableStyle* property contains the table level styles.
