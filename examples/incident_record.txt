@@ -1,0 +1,439 @@
+Description: This PDF template can be used to show an extract from an Incident record. It is important to add the Incident number (inc_number) as an input parameter. Otherwise the PDF cannot be generated.
+
+PDF Template JS object:
+var pdfTemplateProcessor = function(tmplParams) {
+
+	var recordParams = {
+		"inc_number": "INC04150507",
+			"incFields": [
+			"number",
+			"company",
+			"caller_id",
+			"u_affected_person",
+			"location",
+			"u_additional_information",
+			"category",
+			"subcategory",
+			"service_offering",
+			"business_service",
+			"cmdb_ci",
+			"COLUMBREAK",
+			"contact_type",
+			"state",
+			"follow_up",
+			"impact",
+			"urgency",
+			"priority",
+			"assignment_group",
+			"assigned_to",
+			"u_security_incident",
+			"u_data_privacy_relevant",
+			"u_opener_group",
+			"NEWONELINE",
+			"short_description",
+			"description",
+			"correlation_id"
+		]
+	};
+
+    // Get incident record
+    var incGr = function() {
+        var inc = new GlideRecord("incident");
+		inc.addQuery("number", recordParams.inc_number);
+        inc.query();
+		inc.next();
+        return inc;
+    }();
+
+    // Get incident notes (comments, work notes)
+    var journalEntries = function() {
+        var arr = [];
+        var grE = new GlideRecord('sys_journal_field');
+        grE.addEncodedQuery('element_idSTARTSWITH' + recordParams.inc_id);
+        grE.orderByDesc('sys_created_on');
+        grE.query();
+        while (grE.next()) {
+            //gs.info(grE.sys_created_by)
+            var createdBy = '';
+            if (grE.sys_created_by == 'system') {
+                createdBy = 'System';
+            } else {
+                var userGr = new GlideRecord('sys_user');
+                if (userGr.get('user_name', grE.sys_created_by + '')) {
+                    createdBy = userGr.name + '';
+                } else {
+                    createdBy = grE.sys_created_by + '';
+                }
+            }
+
+            arr.push({
+                createdBy: createdBy + '',
+                createdOn: grE.sys_created_on + '',
+                type: grE.element + '',
+                value: grE.value + ''
+            });
+        }
+        return arr;
+    }();
+
+    var docDefinition = {
+        pageSize: 'A4',
+        pageOrientation: 'portrait',
+        mainFont: "Arial",
+        pageMargins: [72, 20, 40, 20],
+        content: [{
+                table: function() {
+                    var _header = ["", "", "", ""],
+                        _body = [];
+                    var fields = recordParams.incFields;
+                    var fields2 = [];
+                    var columBreak = fields.indexOf("COLUMBREAK");
+                    var newLine = fields.indexOf("NEWONELINE");
+                    var arr1 = fields.slice(0, columBreak);
+                    var arr2 = fields.slice(columBreak, newLine);
+                    var arr3 = fields.slice(newLine);
+                    if (arr1.length <= arr2.length) {
+                        fields = arr2;
+                        fields2 = arr1;
+                    } else {
+                        fields = arr1;
+                        fields2 = arr2;
+                    }
+                    for (var i = 0; i < fields.length; i++) {
+
+                        var rowData = [];
+                        if (fields[i] + "" != "COLUMBREAK" && fields[i] + "" != "NEWONELINE") {
+
+                            rowData.push({
+                                text: incGr[fields[i] + ""].getLabel() + "",
+                                //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                bodyCellStyleClass: "tableLabelCell",
+                                colspan: 1,
+                            });
+                            rowData.push({
+                                text: incGr.getDisplayValue(fields[i] + ""),
+                                //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                bodyCellStyleClass: "tableBodyCell",
+                                colspan: 1,
+                                styleClass: "fieldContentStyle"
+                            });
+                            if (fields2[i] && fields2[i] != 'undefined') {
+                                rowData.push({
+                                    text: incGr[fields2[i] + ""].getLabel() + "",
+                                    //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                    bodyCellStyleClass: "tableLabelCell",
+                                    colspan: 1,
+                                });
+                                rowData.push({
+                                    text: incGr.getDisplayValue(fields2[i] + ""),
+                                    //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                    bodyCellStyleClass: "tableBodyCell",
+                                    colspan: 1,
+                                    styleClass: "fieldContentStyle"
+                                });
+                            } else {
+                                rowData.push({
+                                    text: "",
+                                    colspan: 1,
+                                    //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                    //                                bodyCellStyleClass: "tableBodyCell",
+                                });
+                                rowData.push({
+                                    text: "",
+                                    //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                    bodyCellStyleClass: "tableBodyCell",
+                                    colspan: 1,
+                                    styleClass: "fieldContentStyle"
+                                });
+                            }
+                            _body.push(rowData);
+                        } else {
+                            if (fields[i] + "" == "COLUMBREAK") {
+                                columBreak = i;
+                                //_header.push("");
+                            }
+                            if (fields[i] + "" == "NEWONELINE") {
+                                newLine = i;
+                                //_header.push("");
+                            }
+                        }
+                    }
+                    for (var j = 0; j < arr3.length; j++) {
+                        var rowData = [];
+                        if (arr3[j] + "" != "COLUMBREAK" && arr3[j] + "" != "NEWONELINE") {
+
+                            rowData.push({
+                                text: incGr[arr3[j] + ""].getLabel() + "",
+                                //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                bodyCellStyleClass: "tableLabelCell",
+                                colspan: 1,
+                            });
+                            rowData.push({
+                                text: incGr.getDisplayValue(arr3[j] + ""),
+                                //bodyCellStyleClass: (lineNumber % 2 == 0) ? "textStyle" : "textStyle greyRow",                                
+                                bodyCellStyleClass: "tableBodyCell",
+                                colspan: 3,
+                                styleClass: "fieldContentStyle"
+                            });
+                        }
+                        _body.push(rowData);
+                    }
+
+
+                    var ret = {
+                        header: _header,
+                        body: _body
+                    };
+                    //gs.addInfoMessage(JSON.stringify(ret));
+                    return ret;
+                }(),
+                headerRowStyleClass: "tableHeaderRow",
+                headerCellStyleClass: "tableHeaderCell",
+                bodyRowStyleClass: "bodyRowStyleClass",
+                styleClass: "tableStyle"
+            },
+            {
+                hr: {},
+                style: [
+                    "color: black;",
+                    "background-color: black;",
+                    "height: 1px;",
+                    "border: 0px;"
+                ]
+            },
+            {
+                text: "Activities / notes:"
+            },
+            {
+                text: "_linebreak_"
+            },
+            {
+                table: function() {
+                    var _header = [];
+                    var _body = [];
+                    for (var k = 0; k < journalEntries.length; k++) {
+                        var rowData = [];
+                        //arr.push({createdBy: createdBy +'',createdOn: grE.sys_created_on+'',type: grE.element+'',value: grE.value+''});
+                        var cellStyle = '';
+                        var activityType = '';
+                        if (journalEntries[k].type == 'actions_taken') {
+                            cellStyle = "tableActivityCellGrey";
+                            activityType = 'Actions taken';
+                        } else if (journalEntries[k].type == 'comments') {
+                            cellStyle = "tableActivityCellBlack";
+                            activityType = 'Additional comments';
+                        } else {
+                            cellStyle = "tableActivityCellGold";
+                            activityType = 'Work notes';
+                        }
+                        rowData.push({
+                            text: "F",
+                            styleClass: "boldText",
+                            bodyCellStyleClass: cellStyle,
+                            colspan: 1
+                        }, {
+                            table: {
+                                header: [],
+                                body: [
+                                    [{
+                                            text: journalEntries[k].createdBy + '',
+                                            styleClass: "boldText",
+                                            colspan: 1
+                                        },
+                                        {
+                                            text: activityType + ' • ' + journalEntries[k].createdOn,
+                                            styleClass: "boldText activityMetaInfoRightStyle",
+                                            colspan: 1,
+                                        }
+                                    ],
+                                    [{
+                                        text: journalEntries[k].value + '',
+                                        styleClass: "boldText",
+                                        colspan: 2
+                                    }, ]
+                                ],
+                            },
+                            bodyCellStyleClass: "tableActivityCell",
+                            tableStyle: {
+                                width: "100%"
+                            }
+                        });
+                        _body.push(rowData);
+                    }
+                    var ret = {
+                        header: _header,
+                        body: _body
+                    };
+                    //gs.addInfoMessage(JSON.stringify(ret));
+                    return ret;
+                }(),
+                headerRowStyleClass: "tableHeaderRow",
+                headerCellStyleClass: "tableHeaderCell",
+                styleClass: "activityTableStyle"
+            }
+        ],
+        header: {
+            table: {
+                header: [],
+                body: [
+                    [{
+                            text: [{
+                                    text: "Incident: "
+                                },
+                                {
+                                    text: incGr.getValue("number"),
+                                    style: {
+                                        "font-weight": "bold"
+                                    }
+                                }
+                            ],
+                            style: [
+                                "font-size: 14px",
+                                "text-align: left",
+                                "color: white",
+                                "padding-left: 10px"
+                            ]
+                        },
+                        {
+                            text: [{
+                                    text: "Exported By ",
+                                    style: [
+                                        "color: #F399C7"
+                                    ]
+                                },
+                                {
+                                    text: function() {
+                                        return gs.getUserDisplayName();
+                                    }()
+                                },
+                                {
+                                    text: " / "
+                                },
+                                {
+                                    text: function() {
+                                        var currentdate = new GlideDate();
+                                        return currentdate.getByFormat("MM-dd-yyyy");
+                                    }(),
+                                    style: [
+                                        "padding-right: 10px"
+                                    ]
+                                }
+                            ],
+                            style: [
+                                "font-size: 14px",
+                                "text-align: right",
+                                "color: white"
+                            ]
+                        }
+                    ]
+                ]
+            },
+            styleClass: "headerTableStyle"
+        },
+        footer: {
+            text: [
+                //{text: "Document footer"},
+                {
+                    text: "",
+                    styleClass: "currentPageNumber"
+                },
+                {
+                    text: "/"
+                },
+                {
+                    text: "",
+                    styleClass: "allPageNumber"
+                }
+            ]
+        },
+        styleClasses: {
+            tableActivityCellGold: {
+                "background-color": "gold",
+                "color": "gold",
+                "border-bottom-left-radius": "3px",
+                "border-top-left-radius": "3px",
+                "padding-bottom": "10px",
+            },
+            tableActivityCellBlack: {
+                "color": "#2e2e2e",
+                "background-color": "#2e2e2e",
+                "border-bottom-left-radius": "3px",
+                "border-top-left-radius": "3px",
+                "padding-bottom": "10px",
+            },
+            tableActivityCellGrey: {
+                //"border": "1px solid #cbcbcb",
+                "background-color": "#cbcbcb",
+                "color": "#cbcbcb",
+                "border-bottom-left-radius": "3px",
+                "border-top-left-radius": "3px",
+                "padding-bottom": "10px",
+            },
+            tableActivityCell: {
+                "border": "1px solid #cbcbcb",
+                "border-bottom-right-radius": "3px",
+                "border-top-right-radius": "3px",
+                "padding-bottom": "10px",
+                "font-size": "10px",
+            },
+            tableBodyCell: {
+                "display": "block",
+                "width": "35%",
+                //"height": "34px",
+                "height": "25px",
+                "padding-right": "10px !important",
+                "font-size": "11px",
+                "line-height": "1.42857143",
+                "color": "#555",
+                "background-color": "#fff",
+                "background-image": "none",
+                "border": "1.5px solid #ccc",
+                "border-radius": "4px",
+                //"-webkit-box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075)",
+                //"box-shadow": "inset 0 1px 1px rgba(0, 0, 0, .075)",
+                //"-webkit-transition": "border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s",
+                //"-o-transition": "border-color ease-in-out .15s, box-shadow ease-in-out .15s",
+                //"transition": "border-color ease-in-out .15s, box-shadow ease-in-out .15s",
+            },
+            tableLabelCell: {
+                "margin-block-end": "0",
+                "padding-block-start": "8px",
+                "padding-inline-end": "0",
+                "text-align": "left",
+                "font-size": "10px",
+                "width": "15%",
+            },
+            tableHeaderCell: {
+                "border-top": "0px",
+                "border-left": "0px",
+                "border-right": "0px",
+                "border-bottom": "0px",
+                "text-align": "left"
+            },
+            activityMetaInfoRightStyle: {
+                "text-align": "right" 
+            },
+            activityTableStyle: {
+                "width": "100%",
+                "column-count": "4",
+            },
+            tableStyle: {
+                "width": "100%",
+                "column-count": "4",
+                "border-spacing": "5px"
+            },
+            headerTableStyle: {
+                width: "100%",
+                "border-collapse": "collapse",
+                "background-color": "#E20074",
+                height: "30px"
+            },
+            bodyRowStyleClass: {
+            },
+            fieldContentStyle: {
+                "margin-left": "3px"
+            }
+        }
+    };
+    return docDefinition;
+};
