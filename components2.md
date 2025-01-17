@@ -251,7 +251,7 @@ Appearance parameters
 A simple QR code definition can be found below
 ``` JS
 {
-    qrCode2: {
+    qrCode: {
 	options: {
 	    "width": 200,
 	    "height": 200,
